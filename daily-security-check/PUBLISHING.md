@@ -75,6 +75,13 @@
    clawhub publish ./daily-security-check --slug daily-security-check --name "每日安全巡检" --version 1.0.0 --tags latest
    ```
 
+   **若报错 `Error: SKILL.md required`**：多为 skill 目录或其父目录存在 `.git` 时触发的 [ClawHub 已知问题](https://github.com/openclaw/openclaw/issues/32169)。可先复制一份不含 `.git` 的目录再发布：
+   ```bash
+   cd /path/to/parent-of-daily-security-check
+   rsync -av --exclude=.git --exclude=node_modules ./daily-security-check/ /tmp/daily-security-check-pub/
+   clawhub publish /tmp/daily-security-check-pub --slug daily-security-check --name "每日安全巡检" --version 1.0.0 --tags latest
+   ```
+
 3. **后续更新**  
    修改内容后，更新 `clawhub.json` 的 `version` 和 `CHANGELOG.md`，再执行：
    ```bash
